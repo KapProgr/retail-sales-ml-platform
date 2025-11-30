@@ -248,27 +248,6 @@ Model: Linear Regression (BEST)
 
 ---
 
-### 🏠 Dashboard
-![Dashboard](https://via.placeholder.com/800x450/667eea/ffffff?text=Dashboard+View)
-
-*Main interface with upload options and sample data generation*
-
-### 📊 Model Comparison
-![Models](https://via.placeholder.com/800x450/764ba2/ffffff?text=Model+Comparison)
-
-*Side-by-side comparison of all trained models*
-
-### 📈 Predictions Chart
-![Chart](https://via.placeholder.com/800x450/10b981/ffffff?text=Predictions+vs+Actual)
-
-*Interactive visualization of predictions vs actual sales*
-
-### 🎯 Feature Importance
-![Features](https://via.placeholder.com/800x450/f59e0b/ffffff?text=Feature+Importance)
-
-*Bar chart showing which features drive predictions*
-
----
 
 ## 🧪 Testing
 
