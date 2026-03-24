@@ -1,6 +1,6 @@
-# 🚀 Retail Sales ML Platform
+# Retail Sales ML Platform
 
-> Full-stack Machine Learning application for retail sales forecasting with FastAPI + React
+Full-stack machine learning application for retail sales forecasting with FastAPI and React.
 
 [![Backend](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://github.com/KapProgr/retail-sales-api)
 [![Frontend](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)](https://github.com/KapProgr/retail-sales-frontend)
@@ -8,278 +8,241 @@
 
 ---
 
-## 🌐 Quick Links
+## Quick Links
 
-| 🎯 Purpose | 🔗 Link | 📝 Description |
-|-----------|---------|---------------|
-| **Live App** | [retail-sales-ml.vercel.app](https://retail-sales.vercel.app) | Production web application |
-| **API Docs** | [retail-sales-api.onrender.com/docs](https://retail-sales-api.onrender.com/docs) | Interactive API documentation |
-| **Backend Repo** | [retail-sales-api](https://github.com/KapProgr/retail-sales-api) | Python FastAPI + ML models |
-| **Frontend Repo** | [retail-sales-frontend](https://github.com/KapProgr/retail-sales-frontend) | React + Vite + Tailwind |
-
----
-
-## 📊 Project Overview
-
-This is a **production-ready full-stack ML application** that predicts retail sales using multiple machine learning models. Built with modern technologies and deployed on cloud platforms.
-
-### 🎯 Key Capabilities
-
-- 📤 **Upload CSV files** with historical sales data
-- 🎲 **Generate synthetic data** for testing (365 days)
-- 🤖 **Train 3 ML models** simultaneously
-- 📊 **Interactive visualizations** of predictions
-- 🎯 **Compare model performance** (MAE, RMSE, R², MAPE)
-- 🔮 **30-day future forecasts**
-- 📈 **Feature importance analysis**
-- 💾 **Export results** to CSV
+| Purpose | Link | Description |
+|---|---|---|
+| Live App | [retail-sales-ml.vercel.app](https://retail-sales.vercel.app) | Production web application |
+| API Docs | [retail-sales-api.onrender.com/docs](https://retail-sales-api.onrender.com/docs) | Interactive API documentation |
+| Backend Repo | [retail-sales-api](https://github.com/KapProgr/retail-sales-api) | Python FastAPI and ML models |
+| Frontend Repo | [retail-sales-frontend](https://github.com/KapProgr/retail-sales-frontend) | React, Vite, Tailwind |
 
 ---
 
-## 🏗️ Architecture
-```
-┌─────────────────────────────────────────────────────────┐
-│                    USER BROWSER                          │
-│            https://retail-sales.vercel.app              │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      │ HTTP/JSON
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│                  FRONTEND (Vercel)                       │
-│  React 18 + Vite + Tailwind CSS + Recharts              │
-│  - Upload UI                                             │
-│  - Charts & Visualizations                               │
-│  - Model Comparison Dashboard                            │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      │ REST API
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│                  BACKEND (Render)                        │
-│  FastAPI + Python 3.13                                   │
-│  - /upload - File upload endpoint                        │
-│  - /predict - Model training endpoint                    │
-│  - /sample - Sample data generator                       │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      │ scikit-learn
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│                 ML PIPELINE                              │
-│  1. Feature Engineering                                  │
-│     - Lag features (1, 7, 14, 30 days)                  │
-│     - Rolling statistics                                 │
-│     - Cyclical time features                             │
-│  2. Model Training                                       │
-│     - Linear Regression                                  │
-│     - Random Forest                                      │
-│     - Gradient Boosting                                  │
-│  3. Evaluation & Prediction                              │
-└─────────────────────────────────────────────────────────┘
+## Project Overview
+
+This is a production-ready full-stack ML application that predicts retail sales using multiple machine learning models.
+
+### Key Capabilities
+
+- Upload CSV files with historical sales data
+- Generate synthetic data for testing (365 days)
+- Train 3 ML models simultaneously
+- Interactive visualizations of predictions
+- Compare model performance (MAE, RMSE, R2, MAPE)
+- 30-day future forecasts
+- Feature importance analysis
+- Export results to CSV
+
+---
+
+## Architecture
+
+```text
+User Browser (Vercel frontend URL)
+	-> HTTP/JSON
+Frontend (Vercel)
+	React 18 + Vite + Tailwind + Recharts
+	-> REST API
+Backend (Render)
+	FastAPI + Python
+	Endpoints: /upload, /predict, /sample, /health
+	-> scikit-learn
+ML Pipeline
+	Feature engineering + model training + evaluation
 ```
 
 ---
 
-## 📦 Repository Structure
+## Repository Structure
 
-### 🔧 Backend Repository
-**[retail-sales-api](https://github.com/KapProgr/retail-sales-api)**
-```
+### Backend Repository
+
+[retail-sales-api](https://github.com/KapProgr/retail-sales-api)
+
+```text
 retail-sales-api/
-├── main.py              # FastAPI application
-├── requirements.txt     # Python dependencies
-└── README.md           # Backend documentation
+	main.py
+	requirements.txt
+	README.md
 ```
 
-**Tech Stack:**
-- FastAPI 0.115
-- scikit-learn 1.5.2
-- pandas 2.2.3
-- numpy 2.1.0
+Tech stack:
 
-**Endpoints:**
-- `GET /` - API info
-- `GET /health` - Health check
-- `GET /sample` - Generate sample data
-- `POST /upload` - Upload CSV file
-- `POST /predict` - Train models & predict
+- FastAPI
+- scikit-learn
+- pandas
+- numpy
+
+Endpoints:
+
+- GET /
+- GET /health
+- GET /sample
+- POST /upload
+- POST /predict
 
 ---
 
-### 🎨 Frontend Repository
-**[retail-sales-frontend](https://github.com/KapProgr/retail-sales-frontend)**
-```
+### Frontend Repository
+
+[retail-sales-frontend](https://github.com/KapProgr/retail-sales-frontend)
+
+```text
 retail-sales-frontend/
-├── src/
-│   ├── App.jsx         # Main React component
-│   ├── index.css       # Tailwind styles
-│   └── main.jsx        # Entry point
-├── public/             # Static assets
-├── package.json        # Dependencies
-├── vite.config.js      # Vite configuration
-└── tailwind.config.js  # Tailwind configuration
+	src/
+		App.jsx
+		index.css
+		main.jsx
+	public/
+	package.json
+	vite.config.js
+	tailwind.config.js
 ```
 
-**Tech Stack:**
+Tech stack:
+
 - React 18
 - Vite 5
-- Tailwind CSS 3.4
-- Recharts 2.x
-- Lucide React (icons)
+- Tailwind CSS
+- Recharts
+- Lucide React
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- **Backend**: Python 3.9+, pip
-- **Frontend**: Node.js 18+, npm
+- Backend: Python 3.9+ and pip
+- Frontend: Node.js 18+ and npm
 
 ### Local Development
 
-#### 1️⃣ Clone Repositories
+#### 1. Clone Repositories
+
 ```bash
-# Clone backend
+# Backend
 git clone https://github.com/KapProgr/retail-sales-api.git
 cd retail-sales-api
 
-# Clone frontend (in another terminal)
+# Frontend
 git clone https://github.com/KapProgr/retail-sales-frontend.git
 cd retail-sales-frontend
 ```
 
-#### 2️⃣ Setup Backend
+#### 2. Setup Backend
+
 ```bash
 cd retail-sales-api
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Run server
 uvicorn main:app --reload
-
-# API will be available at http://localhost:8000
-# Docs at http://localhost:8000/docs
 ```
 
-#### 3️⃣ Setup Frontend
+Backend local URLs:
+
+- http://localhost:8000
+- http://localhost:8000/docs
+
+#### 3. Setup Frontend
+
 ```bash
 cd retail-sales-frontend
-
-# Install dependencies
 npm install
-
-# Update API URL in src/App.jsx
-# const API_URL = 'http://localhost:8000';
-
-# Run dev server
 npm run dev
-
-# App will be available at http://localhost:5173
 ```
+
+Frontend local URL:
+
+- http://localhost:5173
 
 ---
 
-## 🤖 Machine Learning Models
+## Machine Learning Models
 
 ### Models Implemented
 
-| Model | Type | Best For | Performance |
-|-------|------|----------|-------------|
-| **Linear Regression** | Baseline | Fast training, interpretable | MAE: ~$192 |
-| **Random Forest** | Ensemble | Feature importance, robust | MAE: ~$195 |
-| **Gradient Boosting** | Ensemble | High accuracy | MAE: ~$206 |
+| Model | Type | Best For | Example Performance |
+|---|---|---|---|
+| Linear Regression | Baseline | Fast and interpretable | MAE around 192 |
+| Random Forest | Ensemble | Robust and stable | MAE around 195 |
+| Gradient Boosting | Ensemble | High predictive power | MAE around 206 |
 
 ### Features Engineered
 
-1. **Lag Features**: Sales from 1, 7, 14, and 30 days ago
-2. **Rolling Statistics**: Mean and std dev over 7, 14, 30 day windows
-3. **Time Features**:
-   - Day of week, month, quarter
-   - Weekend indicator
-   - Holiday indicator
-4. **Cyclical Features**: Sin/cos transformations for seasonality
+1. Lag features: sales from 1, 7, 14, and 30 days ago
+2. Rolling statistics: mean and std over 7, 14, 30-day windows
+3. Time features: day of week, month, quarter, weekend, holiday
+4. Cyclical features: sin/cos seasonality transforms
 
 ### Evaluation Metrics
 
-- **MAE** (Mean Absolute Error): Average prediction error in dollars
-- **RMSE** (Root Mean Squared Error): Penalizes large errors
-- **R²** (R-squared): Proportion of variance explained
-- **MAPE** (Mean Absolute Percentage Error): Error as percentage
+- MAE (Mean Absolute Error)
+- RMSE (Root Mean Squared Error)
+- R2 (R-squared)
+- MAPE (Mean Absolute Percentage Error)
 
 ---
 
-## 📈 Performance
+## Performance
 
-Real-world performance on synthetic retail data:
-```
-Model: Linear Regression (BEST)
-├─ Accuracy: 87.6%
-├─ MAE: $191.76
-├─ RMSE: $251.41
-├─ R²: 0.4879
-└─ MAPE: 12.45%
+Example output on synthetic retail data:
+
+```text
+Model: Linear Regression
+Accuracy: 87.6%
+MAE: $191.76
+RMSE: $251.41
+R2: 0.4879
+MAPE: 12.45%
 ```
 
 ---
 
-## 🛠️ Deployment
+## Deployment
 
 ### Backend (Render)
 
-1. Push to GitHub
-2. Connect to Render
+1. Push backend repo to GitHub
+2. Connect repo to Render
 3. Configure:
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-4. Deploy ✅
+	 - Build Command: `pip install -r requirements.txt`
+	 - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+4. Deploy
 
 ### Frontend (Vercel)
 
-1. Push to GitHub
-2. Import to Vercel
+1. Push frontend repo to GitHub
+2. Import repo in Vercel
 3. Configure:
-   - **Framework Preset**: Vite
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-4. Deploy ✅
+	 - Framework Preset: Vite
+	 - Build Command: `npm run build`
+	 - Output Directory: `dist`
+4. Deploy
 
 ---
 
+## Testing
 
-## 🧪 Testing
+### Backend
 
-### Backend Testing
 ```bash
-# Test health endpoint
 curl http://localhost:8000/health
-
-# Test sample data
 curl http://localhost:8000/sample
-
-# Test with Swagger UI
-open http://localhost:8000/docs
 ```
 
-### Frontend Testing
+### Frontend
+
 ```bash
-# Run dev server
 npm run dev
-
-# Build for production
 npm run build
-
-# Preview production build
 npm run preview
 ```
 
 ---
 
-## 📊 Data Format
+## Data Format
 
-CSV files should have these columns:
 ```csv
 date,sales
 2023-01-01,1200.50
@@ -287,56 +250,55 @@ date,sales
 2023-01-03,1180.25
 ```
 
-**Requirements:**
+Requirements:
+
 - Minimum 100 records
 - Date format: YYYY-MM-DD
-- Sales: Positive numbers
+- Sales values: positive numbers
 
 ---
 
-## 🔒 Security
+## Security
 
-- ✅ No API keys required
-- ✅ CORS properly configured
-- ✅ Input validation on backend
-- ✅ No sensitive data storage
-- ✅ HTTPS in production
-
----
-
-## 🚧 Roadmap
-
-- [ ] Authentication & user accounts
-- [ ] Database for storing predictions
-- [ ] More ML models (LSTM, Prophet)
-- [ ] Email reports
-- [ ] Mobile app
-- [ ] Real-time predictions
-- [ ] A/B testing framework
-- [ ] Custom model training
+- No API keys required
+- CORS configured
+- Input validation on backend
+- No sensitive data storage
+- HTTPS in production
 
 ---
 
-## 🤝 Contributing
+## Roadmap
 
-Contributions are welcome! Please:
+- Authentication and user accounts
+- Database for saved predictions
+- Additional models (LSTM, Prophet)
+- Email reports
+- Mobile app
+- Real-time predictions
+- A/B testing workflows
+- Custom model training options
 
-1. Fork the relevant repository
+---
+
+## Contributing
+
+1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Submit a pull request
+4. Open a pull request
 
 ---
 
-## 📄 License
+## License
 
-MIT License - feel free to use this project for learning or commercial purposes!
+MIT License
 
 ---
 
-## 👤 Author
+## Author
 
-**KapProgr**
+KapProgr
 
 - GitHub: [@KapProgr](https://github.com/KapProgr)
 - Backend: [retail-sales-api](https://github.com/KapProgr/retail-sales-api)
@@ -344,34 +306,21 @@ MIT License - feel free to use this project for learning or commercial purposes!
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-Built with amazing open-source tools:
-
-- [FastAPI](https://fastapi.tiangolo.com/) - Modern Python web framework
-- [React](https://react.dev/) - UI library
-- [scikit-learn](https://scikit-learn.org/) - ML library
-- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
-- [Recharts](https://recharts.org/) - React charting library
-- [Render](https://render.com/) - Backend hosting
-- [Vercel](https://vercel.com/) - Frontend hosting
+- FastAPI
+- React
+- scikit-learn
+- Tailwind CSS
+- Recharts
+- Render
+- Vercel
 
 ---
 
-## 💬 Support
+## Support
 
-- 🐛 **Issues**: Open an issue in the relevant repository
-- 💡 **Questions**: Use GitHub Discussions
-- 📧 **Contact**: your-email@example.com
+- Issues: open a GitHub issue
+- Questions: use GitHub Discussions
 
----
 
-## ⭐ Show Your Support
-
-If you found this project helpful, please give it a ⭐ on GitHub!
-
-[![GitHub stars](https://img.shields.io/github/stars/KapProgr/retail-sales-ml-platform?style=social)](https://github.com/KapProgr/retail-sales-ml-platform)
-
----
-
-**Made with lots of ☕**
