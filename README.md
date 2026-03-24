@@ -12,7 +12,7 @@
 
 | 🎯 Purpose | 🔗 Link | 📝 Description |
 |-----------|---------|---------------|
-| **Live App** | [retail-sales.vercel.app](https://retail-sales.vercel.app) | Production web application |
+| **Live App** | [retail-sales-ml.vercel.app](https://retail-sales.vercel.app) | Production web application |
 | **API Docs** | [retail-sales-api.onrender.com/docs](https://retail-sales-api.onrender.com/docs) | Interactive API documentation |
 | **Backend Repo** | [retail-sales-api](https://github.com/KapProgr/retail-sales-api) | Python FastAPI + ML models |
 | **Frontend Repo** | [retail-sales-frontend](https://github.com/KapProgr/retail-sales-frontend) | React + Vite + Tailwind |
