@@ -24,7 +24,7 @@ Dec 2011 (739 days, 135 without trading). Each forecaster makes 30-day forecasts
 | Linear Regression (either target) | 49.2% | 1.52 | −42.6% |
 
 **What the first version showed vs reality:** on its own 365-day sample data the
-first version's best model had MAE 199–205 while "same day last week" had 101–112
+first version's best model had MAE 198–205 while "same day last week" had 101–112
 (3 of 3 random seeds): the models were worse than the simplest baseline, and nothing
 in the app could reveal it.
 
