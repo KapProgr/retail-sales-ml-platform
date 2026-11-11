@@ -5,6 +5,9 @@ every model compares with simple baselines on the same backtest.
 
 FastAPI + scikit-learn backend, React + Recharts frontend, both in this repository.
 
+**Live demo:** https://retail-sales-ml.vercel.app (the API sleeps when idle; the first
+request can take about a minute).
+
 ## Results
 
 <!-- RESULTS:START -->
