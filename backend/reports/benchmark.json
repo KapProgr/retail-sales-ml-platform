@@ -1,7 +1,358 @@
 {
   "results": [
     {
-      "dataset": "synthetic (seed 0)",
+      "dataset": "synthetic 365d (seed 0)",
+      "days": 365,
+      "start": "2023-01-01",
+      "end": "2023-12-31",
+      "zero_days": 0,
+      "original_app": {
+        "models": {
+          "Linear Regression": 345.9,
+          "Random Forest": 218.6,
+          "Gradient Boosting": 204.6
+        },
+        "best_model": "Gradient Boosting",
+        "best_mae": 204.6,
+        "seasonal_naive_mae": 104.2,
+        "test_days": 67
+      },
+      "backtest": {
+        "Naive (last value)": {
+          "kind": "baseline",
+          "mae": 172.936,
+          "rmse": 231.505,
+          "wape": 14.559,
+          "mape": 14.98,
+          "r2": 0.448,
+          "mase": 2.894,
+          "skill_vs_seasonal_naive": -0.179
+        },
+        "Seasonal naive (same day last week)": {
+          "kind": "baseline",
+          "mae": 172.627,
+          "rmse": 264.298,
+          "wape": 14.533,
+          "mape": 12.61,
+          "r2": 0.28,
+          "mase": 2.889,
+          "skill_vs_seasonal_naive": 0.0
+        },
+        "Seasonal mean (last 4 same weekdays)": {
+          "kind": "baseline",
+          "mae": 179.354,
+          "rmse": 282.268,
+          "wape": 15.099,
+          "mape": 12.694,
+          "r2": 0.179,
+          "mase": 3.001,
+          "skill_vs_seasonal_naive": -3.897
+        },
+        "Linear Regression": {
+          "kind": "model",
+          "mae": 131.475,
+          "rmse": 223.128,
+          "wape": 11.068,
+          "mape": 8.982,
+          "r2": 0.487,
+          "mase": 2.2,
+          "skill_vs_seasonal_naive": 23.838
+        },
+        "Random Forest": {
+          "kind": "model",
+          "mae": 126.758,
+          "rmse": 185.698,
+          "wape": 10.671,
+          "mape": 9.461,
+          "r2": 0.645,
+          "mase": 2.121,
+          "skill_vs_seasonal_naive": 26.571
+        },
+        "Gradient Boosting": {
+          "kind": "model",
+          "mae": 95.67,
+          "rmse": 130.169,
+          "wape": 8.054,
+          "mape": 7.898,
+          "r2": 0.825,
+          "mase": 1.601,
+          "skill_vs_seasonal_naive": 44.58
+        },
+        "Linear Regression (raw target)": {
+          "kind": "model",
+          "mae": 131.52,
+          "rmse": 223.467,
+          "wape": 11.072,
+          "mape": 8.981,
+          "r2": 0.486,
+          "mase": 2.201,
+          "skill_vs_seasonal_naive": 23.812
+        },
+        "Random Forest (raw target)": {
+          "kind": "model",
+          "mae": 148.488,
+          "rmse": 238.184,
+          "wape": 12.5,
+          "mape": 10.36,
+          "r2": 0.416,
+          "mase": 2.485,
+          "skill_vs_seasonal_naive": 13.983
+        },
+        "Gradient Boosting (raw target)": {
+          "kind": "model",
+          "mae": 129.657,
+          "rmse": 200.754,
+          "wape": 10.915,
+          "mape": 9.444,
+          "r2": 0.585,
+          "mase": 2.17,
+          "skill_vs_seasonal_naive": 24.891
+        }
+      },
+      "cutoffs": [
+        "2023-08-04",
+        "2023-09-03",
+        "2023-10-03",
+        "2023-11-02",
+        "2023-12-02"
+      ]
+    },
+    {
+      "dataset": "synthetic 365d (seed 1)",
+      "days": 365,
+      "start": "2023-01-01",
+      "end": "2023-12-31",
+      "zero_days": 0,
+      "original_app": {
+        "models": {
+          "Linear Regression": 316.7,
+          "Random Forest": 204.3,
+          "Gradient Boosting": 211.6
+        },
+        "best_model": "Random Forest",
+        "best_mae": 204.3,
+        "seasonal_naive_mae": 100.8,
+        "test_days": 67
+      },
+      "backtest": {
+        "Naive (last value)": {
+          "kind": "baseline",
+          "mae": 172.673,
+          "rmse": 233.598,
+          "wape": 14.571,
+          "mape": 15.105,
+          "r2": 0.435,
+          "mase": 3.131,
+          "skill_vs_seasonal_naive": -14.827
+        },
+        "Seasonal naive (same day last week)": {
+          "kind": "baseline",
+          "mae": 150.378,
+          "rmse": 251.539,
+          "wape": 12.689,
+          "mape": 10.473,
+          "r2": 0.344,
+          "mase": 2.727,
+          "skill_vs_seasonal_naive": 0.0
+        },
+        "Seasonal mean (last 4 same weekdays)": {
+          "kind": "baseline",
+          "mae": 172.806,
+          "rmse": 280.203,
+          "wape": 14.582,
+          "mape": 12.101,
+          "r2": 0.187,
+          "mase": 3.134,
+          "skill_vs_seasonal_naive": -14.915
+        },
+        "Linear Regression": {
+          "kind": "model",
+          "mae": 127.771,
+          "rmse": 211.638,
+          "wape": 10.782,
+          "mape": 8.767,
+          "r2": 0.536,
+          "mase": 2.317,
+          "skill_vs_seasonal_naive": 15.033
+        },
+        "Random Forest": {
+          "kind": "model",
+          "mae": 122.961,
+          "rmse": 190.683,
+          "wape": 10.376,
+          "mape": 8.829,
+          "r2": 0.623,
+          "mase": 2.23,
+          "skill_vs_seasonal_naive": 18.232
+        },
+        "Gradient Boosting": {
+          "kind": "model",
+          "mae": 73.376,
+          "rmse": 111.617,
+          "wape": 6.192,
+          "mape": 5.951,
+          "r2": 0.871,
+          "mase": 1.331,
+          "skill_vs_seasonal_naive": 51.206
+        },
+        "Linear Regression (raw target)": {
+          "kind": "model",
+          "mae": 127.591,
+          "rmse": 211.315,
+          "wape": 10.767,
+          "mape": 8.755,
+          "r2": 0.537,
+          "mase": 2.314,
+          "skill_vs_seasonal_naive": 15.153
+        },
+        "Random Forest (raw target)": {
+          "kind": "model",
+          "mae": 145.402,
+          "rmse": 238.925,
+          "wape": 12.27,
+          "mape": 10.055,
+          "r2": 0.409,
+          "mase": 2.637,
+          "skill_vs_seasonal_naive": 3.309
+        },
+        "Gradient Boosting (raw target)": {
+          "kind": "model",
+          "mae": 123.168,
+          "rmse": 208.388,
+          "wape": 10.393,
+          "mape": 8.552,
+          "r2": 0.55,
+          "mase": 2.233,
+          "skill_vs_seasonal_naive": 18.094
+        }
+      },
+      "cutoffs": [
+        "2023-08-04",
+        "2023-09-03",
+        "2023-10-03",
+        "2023-11-02",
+        "2023-12-02"
+      ]
+    },
+    {
+      "dataset": "synthetic 365d (seed 2)",
+      "days": 365,
+      "start": "2023-01-01",
+      "end": "2023-12-31",
+      "zero_days": 0,
+      "original_app": {
+        "models": {
+          "Linear Regression": 320.6,
+          "Random Forest": 198.5,
+          "Gradient Boosting": 213.1
+        },
+        "best_model": "Random Forest",
+        "best_mae": 198.5,
+        "seasonal_naive_mae": 112.0,
+        "test_days": 67
+      },
+      "backtest": {
+        "Naive (last value)": {
+          "kind": "baseline",
+          "mae": 162.741,
+          "rmse": 214.305,
+          "wape": 13.677,
+          "mape": 14.208,
+          "r2": 0.529,
+          "mase": 2.78,
+          "skill_vs_seasonal_naive": -3.666
+        },
+        "Seasonal naive (same day last week)": {
+          "kind": "baseline",
+          "mae": 156.985,
+          "rmse": 258.862,
+          "wape": 13.193,
+          "mape": 10.976,
+          "r2": 0.312,
+          "mase": 2.681,
+          "skill_vs_seasonal_naive": 0.0
+        },
+        "Seasonal mean (last 4 same weekdays)": {
+          "kind": "baseline",
+          "mae": 181.065,
+          "rmse": 285.201,
+          "wape": 15.217,
+          "mape": 12.716,
+          "r2": 0.165,
+          "mase": 3.093,
+          "skill_vs_seasonal_naive": -15.339
+        },
+        "Linear Regression": {
+          "kind": "model",
+          "mae": 174.233,
+          "rmse": 250.719,
+          "wape": 14.642,
+          "mape": 12.992,
+          "r2": 0.355,
+          "mase": 2.976,
+          "skill_vs_seasonal_naive": -10.987
+        },
+        "Random Forest": {
+          "kind": "model",
+          "mae": 145.538,
+          "rmse": 223.009,
+          "wape": 12.231,
+          "mape": 10.43,
+          "r2": 0.49,
+          "mase": 2.486,
+          "skill_vs_seasonal_naive": 7.292
+        },
+        "Gradient Boosting": {
+          "kind": "model",
+          "mae": 93.72,
+          "rmse": 127.352,
+          "wape": 7.876,
+          "mape": 7.524,
+          "r2": 0.834,
+          "mase": 1.601,
+          "skill_vs_seasonal_naive": 40.3
+        },
+        "Linear Regression (raw target)": {
+          "kind": "model",
+          "mae": 174.384,
+          "rmse": 251.076,
+          "wape": 14.655,
+          "mape": 13.005,
+          "r2": 0.353,
+          "mase": 2.979,
+          "skill_vs_seasonal_naive": -11.083
+        },
+        "Random Forest (raw target)": {
+          "kind": "model",
+          "mae": 156.591,
+          "rmse": 243.708,
+          "wape": 13.16,
+          "mape": 10.928,
+          "r2": 0.391,
+          "mase": 2.675,
+          "skill_vs_seasonal_naive": 0.251
+        },
+        "Gradient Boosting (raw target)": {
+          "kind": "model",
+          "mae": 127.317,
+          "rmse": 199.465,
+          "wape": 10.7,
+          "mape": 9.069,
+          "r2": 0.592,
+          "mase": 2.175,
+          "skill_vs_seasonal_naive": 18.898
+        }
+      },
+      "cutoffs": [
+        "2023-08-04",
+        "2023-09-03",
+        "2023-10-03",
+        "2023-11-02",
+        "2023-12-02"
+      ]
+    },
+    {
+      "dataset": "synthetic 730d (seed 0)",
       "days": 730,
       "start": "2023-01-01",
       "end": "2024-12-30",
@@ -118,7 +469,7 @@
       ]
     },
     {
-      "dataset": "synthetic (seed 1)",
+      "dataset": "synthetic 730d (seed 1)",
       "days": 730,
       "start": "2023-01-01",
       "end": "2024-12-30",
@@ -235,7 +586,7 @@
       ]
     },
     {
-      "dataset": "synthetic (seed 2)",
+      "dataset": "synthetic 730d (seed 2)",
       "days": 730,
       "start": "2023-01-01",
       "end": "2024-12-30",
@@ -353,14 +704,14 @@
     }
   ],
   "mean_skill": {
-    "Naive (last value)": -15.7,
+    "Naive (last value)": -11.0,
     "Seasonal naive (same day last week)": 0.0,
-    "Seasonal mean (last 4 same weekdays)": -2.3,
-    "Linear Regression": 21.7,
-    "Random Forest": 63.1,
-    "Gradient Boosting": 62.1,
-    "Linear Regression (raw target)": 21.6,
-    "Random Forest (raw target)": 28.6,
-    "Gradient Boosting (raw target)": 48.9
+    "Seasonal mean (last 4 same weekdays)": -6.9,
+    "Linear Regression": 15.5,
+    "Random Forest": 40.3,
+    "Gradient Boosting": 53.7,
+    "Linear Regression (raw target)": 15.5,
+    "Random Forest (raw target)": 17.2,
+    "Gradient Boosting (raw target)": 34.7
   }
 }
