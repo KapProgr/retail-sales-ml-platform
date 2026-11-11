@@ -292,7 +292,7 @@ const RetailSalesML = () => {
               <div className="text-center">
                 <BarChart3 className="mx-auto text-green-400 mb-4" size={48} />
                 <h2 className="text-2xl font-bold text-white mb-3">Demo Data</h2>
-                <p className="text-emerald-200 mb-6">365 days of synthetic data</p>
+                <p className="text-emerald-200 mb-6">2 years of synthetic data, or real UK retail sales (2009–2011)</p>
                 <button
                   onClick={generateSampleData}
                   className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
