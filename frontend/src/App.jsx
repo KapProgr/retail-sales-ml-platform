@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Upload, TrendingUp, Calendar, DollarSign, Download, Play, Loader, BarChart3, FileText, Wifi, WifiOff } from 'lucide-react';
 
-const API_URL = 'https://retail-sales-api.onrender.com';
+// Set VITE_API_URL in .env (see .env.example); the default is the hosted API.
+const API_URL = import.meta.env.VITE_API_URL || 'https://retail-sales-api.onrender.com';
+
+const fmt = (n, digits = 1) => (Number.isFinite(n) ? n.toFixed(digits) : '–');
 
 const RetailSalesML = () => {
   const [file, setFile] = useState(null);
@@ -28,9 +31,9 @@ const RetailSalesML = () => {
       } else {
         setApiStatus('error');
       }
-    } catch (error) {
+    } catch {
       setApiStatus('error');
-      addLog("✗ Can't connect to API - using local mode");
+      addLog("✗ Can't reach the API. The free server sleeps when idle and needs about a minute to wake up; try again shortly.");
     }
   };
 
@@ -76,7 +79,7 @@ const RetailSalesML = () => {
       } else {
         throw new Error('API error');
       }
-    } catch (error) {
+    } catch {
       // Fallback to local generation
       addLog('Generating local sample data...');
       const sampleData = [];
@@ -131,30 +134,17 @@ const RetailSalesML = () => {
         body: JSON.stringify(data)
       });
 
+      const analysisResults = await response.json();
       if (!response.ok) {
-        throw new Error('API request failed');
+        throw new Error(analysisResults.detail || `API request failed (${response.status})`);
       }
 
-      const analysisResults = await response.json();
-
-      setResults(analysisResults);
-      setPredictions(analysisResults.test_predictions);
-      
-      addLog(`✓ Training completed`);
-      addLog(`✓ Best model: ${analysisResults.best_model}`);
-      const bestModel = analysisResults.models.find(m => m.name === analysisResults.best_model);
-      addLog(`✓ Accuracy: ${((1 - bestModel.mape / 100) * 100).toFixed(2)}%`);
-      
+      showResults(analysisResults);
     } catch (error) {
       console.error('Error:', error);
-      addLog(`API Error: ${error.message}`);
-      addLog('Using local simulation...');
-      
-      // Fallback to local simulation
-      const fallbackResults = generateFallbackResults();
-      setResults(fallbackResults);
-      setPredictions(fallbackResults.test_predictions);
-      addLog('✓ Local analysis completed');
+      // No fake results: if the API is unavailable, say so.
+      addLog(`✗ ${error.message}`);
+      addLog('If the server was asleep it is waking up now; press "Train" again in a minute.');
     } finally {
       setTraining(false);
     }
@@ -178,76 +168,34 @@ const RetailSalesML = () => {
         body: formData
       });
 
+      const analysisResults = await response.json();
       if (!response.ok) {
-        throw new Error('Upload failed');
+        throw new Error(analysisResults.detail || `Upload failed (${response.status})`);
       }
 
-      const analysisResults = await response.json();
-
-      setResults(analysisResults);
-      setPredictions(analysisResults.test_predictions);
-      
-      addLog(`✓ Training completed`);
-      addLog(`✓ Best model: ${analysisResults.best_model}`);
-      
+      showResults(analysisResults);
     } catch (error) {
       console.error('Error:', error);
-      addLog(`Upload Error: ${error.message}`);
-      addLog('Try the local method');
+      addLog(`✗ ${error.message}`);
     } finally {
       setTraining(false);
     }
   };
 
-  const generateFallbackResults = () => {
-    const testSize = Math.floor(data.length * 0.2);
-    const testData = data.slice(-testSize);
-    
-    const testPredictions = testData.map(d => {
-      const predicted = d.sales + (Math.random() * 100 - 50);
-      return {
-        date: d.date,
-        actual: d.sales,
-        predicted: Math.round(predicted)
-      };
-    });
-
-    const lastDate = new Date(data[data.length - 1].date);
-    const futurePredictions = [];
-    for (let i = 1; i <= 30; i++) {
-      const futureDate = new Date(lastDate);
-      futureDate.setDate(futureDate.getDate() + i);
-      const avgSales = data.reduce((a, b) => a + b.sales, 0) / data.length;
-      futurePredictions.push({
-        date: futureDate.toISOString().split('T')[0],
-        predicted: Math.round(avgSales + (Math.random() * 200 - 100))
-      });
-    }
-
-    return {
-      models: [
-        { name: 'Linear Regression', mae: 45.23, rmse: 58.67, r2: 0.912, mape: 3.82 },
-        { name: 'Random Forest', mae: 38.15, rmse: 51.44, r2: 0.941, mape: 3.12 },
-        { name: 'Gradient Boosting', mae: 41.89, rmse: 54.23, r2: 0.928, mape: 3.45 }
-      ],
-      best_model: 'Random Forest',
-      test_predictions: testPredictions,
-      future_predictions: futurePredictions,
-      feature_importance: [
-        { feature: 'sales_lag_7', importance: 85 },
-        { feature: 'sales_rolling_mean_14', importance: 78 },
-        { feature: 'day_of_week', importance: 65 },
-        { feature: 'month', importance: 58 },
-        { feature: 'is_weekend', importance: 52 }
-      ]
-    };
+  const showResults = (analysisResults) => {
+    setResults(analysisResults);
+    setPredictions(analysisResults.test_predictions);
+    const best = analysisResults.models.find(m => m.name === analysisResults.best_model);
+    const bt = analysisResults.backtest;
+    addLog(`✓ Backtest: ${bt.folds} cut-offs × ${bt.horizon_days}-day forecasts`);
+    addLog(`✓ Best: ${analysisResults.best_model} (WAPE ${fmt(best.wape)}%, ${fmt(best.skill_vs_seasonal_naive)}% vs same-day-last-week)`);
   };
 
   const downloadCSV = () => {
     if (!predictions) return;
     
-    const csv = 'Date,Actual,Predicted\n' + 
-      predictions.map(p => `${p.date},${p.actual},${p.predicted}`).join('\n');
+    const csv = 'Date,Actual,Predicted,SeasonalNaive\n' +
+      predictions.map(p => `${p.date},${p.actual},${p.predicted},${p.baseline}`).join('\n');
     
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -434,62 +382,69 @@ const RetailSalesML = () => {
                     <>
                       <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 text-white">
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm opacity-90">Accuracy</p>
+                          <p className="text-sm opacity-90">Better than same day last week</p>
                           <TrendingUp size={20} />
                         </div>
-                        <p className="text-3xl font-bold">{((1 - bestModel.mape / 100) * 100).toFixed(1)}%</p>
+                        <p className="text-3xl font-bold">{fmt(bestModel.skill_vs_seasonal_naive)}%</p>
                       </div>
                       <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 text-white">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm opacity-90">MAE</p>
                           <DollarSign size={20} />
                         </div>
-                        <p className="text-3xl font-bold">${bestModel.mae.toFixed(0)}</p>
+                        <p className="text-3xl font-bold">{fmt(bestModel.mae, 0)}</p>
                       </div>
                       <div className="bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl p-6 text-white">
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm opacity-90">R² Score</p>
+                          <p className="text-sm opacity-90">WAPE (30-day forecasts)</p>
                           <BarChart3 size={20} />
                         </div>
-                        <p className="text-3xl font-bold">{bestModel.r2.toFixed(3)}</p>
+                        <p className="text-3xl font-bold">{fmt(bestModel.wape)}%</p>
                       </div>
                       <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 text-white">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm opacity-90">RMSE</p>
                           <Calendar size={20} />
                         </div>
-                        <p className="text-3xl font-bold">${bestModel.rmse.toFixed(0)}</p>
+                        <p className="text-3xl font-bold">{fmt(bestModel.rmse, 0)}</p>
                       </div>
                     </>
                   )}
                 </div>
 
                 <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6 border border-emerald-500/30 mb-6">
-                  <h3 className="text-xl font-bold text-white mb-4">Model Comparison</h3>
+                  <h3 className="text-xl font-bold text-white mb-1">Model Comparison</h3>
+                  <p className="text-emerald-300 text-sm mb-4">
+                    30-day forecasts from {results.backtest.folds} cut-off dates ({results.backtest.cutoffs.join(', ')}), each model
+                    feeding its own predictions forward. Baselines are included: a model is only useful if it beats them.
+                  </p>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left">
                       <thead>
                         <tr className="border-b border-emerald-500/30">
                           <th className="pb-3 text-emerald-300 font-semibold">Model</th>
                           <th className="pb-3 text-emerald-300 font-semibold">MAE</th>
-                          <th className="pb-3 text-emerald-300 font-semibold">RMSE</th>
-                          <th className="pb-3 text-emerald-300 font-semibold">R²</th>
-                          <th className="pb-3 text-emerald-300 font-semibold">MAPE</th>
+                          <th className="pb-3 text-emerald-300 font-semibold">WAPE</th>
+                          <th className="pb-3 text-emerald-300 font-semibold">MASE</th>
+                          <th className="pb-3 text-emerald-300 font-semibold">vs seasonal naive</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {results.models.map((model, i) => (
+                        {[...results.models].sort((a, b) => a.mae - b.mae).map((model, i) => (
                           <tr key={i} className={`border-b border-emerald-500/10 ${model.name === results.best_model ? 'bg-emerald-500/20' : ''}`}>
                             <td className="py-3 text-white font-medium">
                               {model.name}
+                              {model.kind === 'baseline' && (
+                                <span className="ml-2 text-xs bg-slate-600 px-2 py-1 rounded">baseline</span>
+                              )}
                               {model.name === results.best_model && (
                                 <span className="ml-2 text-xs bg-green-500 px-2 py-1 rounded">BEST</span>
                               )}
                             </td>
-                            <td className="py-3 text-emerald-200">${model.mae.toFixed(2)}</td>
-                            <td className="py-3 text-emerald-200">${model.rmse.toFixed(2)}</td>
-                            <td className="py-3 text-emerald-200">{model.r2.toFixed(4)}</td>
-                            <td className="py-3 text-emerald-200">{model.mape.toFixed(2)}%</td>
+                            <td className="py-3 text-emerald-200">{fmt(model.mae, 2)}</td>
+                            <td className="py-3 text-emerald-200">{fmt(model.wape)}%</td>
+                            <td className="py-3 text-emerald-200">{fmt(model.mase, 2)}</td>
+                            <td className="py-3 text-emerald-200">{model.skill_vs_seasonal_naive > 0 ? '+' : ''}{fmt(model.skill_vs_seasonal_naive)}%</td>
                           </tr>
                         ))}
                       </tbody>
@@ -503,7 +458,7 @@ const RetailSalesML = () => {
             {activeTab === 'predictions' && predictions && (
               <>
                 <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6 border border-emerald-500/30 mb-6">
-                  <h3 className="text-xl font-bold text-white mb-4">Test Predictions vs Actual</h3>
+                  <h3 className="text-xl font-bold text-white mb-4">Last backtest window: 30-day forecast vs actual</h3>
                   <ResponsiveContainer width="100%" height={400}>
                     <LineChart data={predictions}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
@@ -520,14 +475,15 @@ const RetailSalesML = () => {
                       />
                       <Legend />
                       <Line type="monotone" dataKey="actual" stroke="#10b981" strokeWidth={2} name="Actual" />
-                      <Line type="monotone" dataKey="predicted" stroke="#22c55e" strokeWidth={2} strokeDasharray="5 5" name="Predicted" />
+                      <Line type="monotone" dataKey="predicted" stroke="#22c55e" strokeWidth={2} strokeDasharray="5 5" name={results.best_model} />
+                      <Line type="monotone" dataKey="baseline" stroke="#94a3b8" strokeWidth={1} strokeDasharray="2 4" name="Same day last week" dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
 
                 {results.future_predictions && (
                   <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6 border border-emerald-500/30">
-                    <h3 className="text-xl font-bold text-white mb-4">Future Predictions (30 days)</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">Next 30 days (80% interval from backtest errors)</h3>
                     <ResponsiveContainer width="100%" height={300}>
                       <LineChart data={results.future_predictions}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
@@ -541,7 +497,10 @@ const RetailSalesML = () => {
                         <Tooltip 
                           contentStyle={{ backgroundColor: '#052e16', border: '1px solid #10b981', borderRadius: '8px' }}
                         />
-                        <Line type="monotone" dataKey="predicted" stroke="#34d399" strokeWidth={3} name="Predicted" />
+                        <Legend />
+                        <Line type="monotone" dataKey="upper" stroke="#6ee7b7" strokeWidth={1} strokeDasharray="3 3" dot={false} name="Upper (90%)" />
+                        <Line type="monotone" dataKey="predicted" stroke="#34d399" strokeWidth={3} name="Forecast" />
+                        <Line type="monotone" dataKey="lower" stroke="#6ee7b7" strokeWidth={1} strokeDasharray="3 3" dot={false} name="Lower (10%)" />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
@@ -552,7 +511,7 @@ const RetailSalesML = () => {
             {/* Features Tab */}
             {activeTab === 'features' && results.feature_importance && (
               <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6 border border-emerald-500/30">
-                <h3 className="text-xl font-bold text-white mb-4">Feature Importance</h3>
+                <h3 className="text-xl font-bold text-white mb-4">Feature Importance ({results.feature_importance_model})</h3>
                 <ResponsiveContainer width="100%" height={400}>
                   <BarChart data={results.feature_importance} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />

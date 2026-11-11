@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+backend/benchmarks/data/*.zip
+backend/benchmarks/data/*.xlsx
+
+# Node
+node_modules/
+frontend/dist/
+
+# Env
+.env
+.env.local
+*.env.local
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

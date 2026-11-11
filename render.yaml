@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: retail-sales-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ALLOWED_ORIGINS
+        value: https://retail-sales.vercel.app,http://localhost:5173
+      - key: BACKTEST_FOLDS
+        value: "3"
