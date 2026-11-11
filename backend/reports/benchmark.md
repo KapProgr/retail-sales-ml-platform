@@ -10,6 +10,7 @@
 | synthetic 730d (seed 0) | Gradient Boosting (83.9) | 80.7 | **no** |
 | synthetic 730d (seed 1) | Random Forest (82.7) | 87.4 | yes |
 | synthetic 730d (seed 2) | Gradient Boosting (79.7) | 84.1 | yes |
+| Online Retail II (UCI, real) | Linear Regression (12,938.6) | 15,304.0 | yes |
 
 ## 2. Honest evaluation: 30-day recursive forecasts, 5 rolling cut-offs
 
@@ -99,3 +100,17 @@ than the in-sample weekly naive error.
 | Seasonal mean (last 4 same weekdays) | 169.2 | 12.3% | 2.42 | +1.0% |
 | Seasonal naive (same day last week) | 170.8 | 12.4% | 2.44 | +0.0% |
 | Naive (last value) | 189.7 | 13.8% | 2.71 | -11.1% |
+
+### Online Retail II (UCI, real): 739 days (2009-12-01 to 2011-12-09, 135 zero-sales days)
+
+| forecaster | MAE | WAPE | MASE | skill vs seasonal naive |
+|---|---|---|---|---|
+| **Gradient Boosting** | 11,089.0 | 29.8% | 0.92 | +13.7% |
+| Random Forest (raw target) | 11,134.3 | 29.9% | 0.92 | +13.4% |
+| Random Forest | 11,488.8 | 30.9% | 0.95 | +10.6% |
+| Seasonal mean (last 4 same weekdays) | 12,572.2 | 33.8% | 1.04 | +2.2% |
+| Seasonal naive (same day last week) | 12,851.7 | 34.5% | 1.06 | +0.0% |
+| Gradient Boosting (raw target) | 12,885.5 | 34.6% | 1.07 | -0.3% |
+| Linear Regression (raw target) | 18,325.3 | 49.2% | 1.52 | -42.6% |
+| Linear Regression | 18,327.1 | 49.2% | 1.52 | -42.6% |
+| Naive (last value) | 29,105.4 | 78.2% | 2.41 | -126.5% |

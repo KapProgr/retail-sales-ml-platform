@@ -67,6 +67,19 @@ const RetailSalesML = () => {
     }
   };
 
+  const loadRealData = async () => {
+    addLog('Loading real sales data (UCI Online Retail II, 2009-2011)...');
+    try {
+      const response = await fetch(`${API_URL}/sample?dataset=online-retail`);
+      if (!response.ok) throw new Error(`API error (${response.status})`);
+      const result = await response.json();
+      setData(result.data);
+      addLog(`✓ Loaded ${result.data.length} trading days from ${result.source}`);
+    } catch (error) {
+      addLog(`✗ ${error.message}. The free server may be waking up; try again in a minute.`);
+    }
+  };
+
   const generateSampleData = async () => {
     addLog('Fetching sample data from API...');
     
@@ -285,6 +298,12 @@ const RetailSalesML = () => {
                   className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
                 >
                   Generate Sample
+                </button>
+                <button
+                  onClick={loadRealData}
+                  className="ml-3 bg-emerald-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-900 transition"
+                >
+                  Real Data (UCI)
                 </button>
               </div>
             </div>

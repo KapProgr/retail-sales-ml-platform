@@ -33,3 +33,10 @@ def test_bad_input_is_a_400_not_a_500():
     assert short.status_code == 400 and "at least" in short.json()["detail"]
     wrong = client.post("/upload", files={"file": ("s.csv", io.BytesIO(b"a,b\n1,2\n"), "text/csv")})
     assert wrong.status_code == 400 and "columns" in wrong.json()["detail"]
+
+
+def test_real_dataset_endpoint():
+    response = client.get("/sample?dataset=online-retail")
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body["data"]) > 500 and "UCI" in body["source"]

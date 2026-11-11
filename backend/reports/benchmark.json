@@ -701,17 +701,134 @@
         "2024-11-01",
         "2024-12-01"
       ]
+    },
+    {
+      "dataset": "Online Retail II (UCI, real)",
+      "days": 739,
+      "start": "2009-12-01",
+      "end": "2011-12-09",
+      "zero_days": 135,
+      "original_app": {
+        "models": {
+          "Linear Regression": 12938.6,
+          "Random Forest": 13433.3,
+          "Gradient Boosting": 14275.6
+        },
+        "best_model": "Linear Regression",
+        "best_mae": 12938.6,
+        "seasonal_naive_mae": 15304.0,
+        "test_days": 115
+      },
+      "backtest": {
+        "Naive (last value)": {
+          "kind": "baseline",
+          "mae": 29105.432,
+          "rmse": 38207.684,
+          "wape": 78.194,
+          "mape": 86.48,
+          "r2": -0.905,
+          "mase": 2.408,
+          "skill_vs_seasonal_naive": -126.472
+        },
+        "Seasonal naive (same day last week)": {
+          "kind": "baseline",
+          "mae": 12851.654,
+          "rmse": 21175.658,
+          "wape": 34.527,
+          "mape": 34.912,
+          "r2": 0.415,
+          "mase": 1.063,
+          "skill_vs_seasonal_naive": 0.0
+        },
+        "Seasonal mean (last 4 same weekdays)": {
+          "kind": "baseline",
+          "mae": 12572.227,
+          "rmse": 21211.562,
+          "wape": 33.776,
+          "mape": 33.395,
+          "r2": 0.413,
+          "mase": 1.04,
+          "skill_vs_seasonal_naive": 2.174
+        },
+        "Linear Regression": {
+          "kind": "model",
+          "mae": 18327.1,
+          "rmse": 24078.702,
+          "wape": 49.237,
+          "mape": 55.868,
+          "r2": 0.243,
+          "mase": 1.516,
+          "skill_vs_seasonal_naive": -42.605
+        },
+        "Random Forest": {
+          "kind": "model",
+          "mae": 11488.799,
+          "rmse": 17767.347,
+          "wape": 30.866,
+          "mape": 33.638,
+          "r2": 0.588,
+          "mase": 0.951,
+          "skill_vs_seasonal_naive": 10.605
+        },
+        "Gradient Boosting": {
+          "kind": "model",
+          "mae": 11089.029,
+          "rmse": 17771.574,
+          "wape": 29.792,
+          "mape": 32.738,
+          "r2": 0.588,
+          "mase": 0.917,
+          "skill_vs_seasonal_naive": 13.715
+        },
+        "Linear Regression (raw target)": {
+          "kind": "model",
+          "mae": 18325.333,
+          "rmse": 24078.296,
+          "wape": 49.233,
+          "mape": 55.86,
+          "r2": 0.243,
+          "mase": 1.516,
+          "skill_vs_seasonal_naive": -42.591
+        },
+        "Random Forest (raw target)": {
+          "kind": "model",
+          "mae": 11134.301,
+          "rmse": 18637.425,
+          "wape": 29.913,
+          "mape": 30.423,
+          "r2": 0.547,
+          "mase": 0.921,
+          "skill_vs_seasonal_naive": 13.363
+        },
+        "Gradient Boosting (raw target)": {
+          "kind": "model",
+          "mae": 12885.538,
+          "rmse": 20120.306,
+          "wape": 34.618,
+          "mape": 35.428,
+          "r2": 0.472,
+          "mase": 1.066,
+          "skill_vs_seasonal_naive": -0.264
+        }
+      },
+      "cutoffs": [
+        "2011-07-13",
+        "2011-08-12",
+        "2011-09-11",
+        "2011-10-11",
+        "2011-11-10"
+      ]
     }
   ],
   "mean_skill": {
-    "Naive (last value)": -11.0,
+    "Naive (last value)": -27.5,
     "Seasonal naive (same day last week)": 0.0,
-    "Seasonal mean (last 4 same weekdays)": -6.9,
-    "Linear Regression": 15.5,
-    "Random Forest": 40.3,
-    "Gradient Boosting": 53.7,
-    "Linear Regression (raw target)": 15.5,
-    "Random Forest (raw target)": 17.2,
-    "Gradient Boosting (raw target)": 34.7
+    "Seasonal mean (last 4 same weekdays)": -5.6,
+    "Linear Regression": 7.2,
+    "Random Forest": 36.0,
+    "Gradient Boosting": 48.0,
+    "Linear Regression (raw target)": 7.2,
+    "Random Forest (raw target)": 16.7,
+    "Gradient Boosting (raw target)": 29.7
   }
 }

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import io
 import os
+from pathlib import Path
 
 import pandas as pd
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -62,8 +63,17 @@ def health():
     return {"status": "healthy"}
 
 
+REAL_DATA = Path(__file__).resolve().parents[1] / "benchmarks" / "data" / "online_retail_ii_daily.csv"
+
+
 @app.get("/sample")
-def sample(days: int = 730):
+def sample(days: int = 730, dataset: str = "synthetic"):
+    """Synthetic data, or ``dataset=online-retail``: real daily sales of a UK online
+    retailer, 2009-2011 (UCI Online Retail II, CC BY 4.0)."""
+    if dataset == "online-retail":
+        if not REAL_DATA.exists():
+            raise HTTPException(404, "real dataset not available on this server")
+        return {"data": pd.read_csv(REAL_DATA).to_dict("records"), "source": "UCI Online Retail II (CC BY 4.0)"}
     return {"data": sample_sales(days=max(120, min(days, MAX_DAYS)))}
 
 
